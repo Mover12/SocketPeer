@@ -1,10 +1,10 @@
 import EventEmitter from "./EventEmitter";
 
 class Peer extends EventEmitter {
-    constructor(id) {
+    constructor(options) {
         super(['open', 'message', 'close']);
 
-        this.id = id;
+        this.id = options.id;
         this.peerConnections = {};
         this.dataChannels = {};
     }
@@ -58,10 +58,10 @@ class Peer extends EventEmitter {
 
     setupDataChannel(id) {
         this.dataChannels[id].addEventListener('open', event => {
-            this.emit('open', id, event);
+            this.emit('open', [id, event]);
         })
         this.dataChannels[id].addEventListener('message', event => {
-            this.emit('message', id, event);
+            this.emit('message', [id, event]);
         })
     }
 
