@@ -1,3 +1,4 @@
+import Socket from './src/Socket'
 import Peer from './src/Peer'
 import SocketPeer from './src/SocketPeer'
 
@@ -9,16 +10,25 @@ const open = document.querySelector('.open');
 
 text_user_id.innerHTML = UID
 
-const sp = new SocketPeer({
+const socket = new Socket({
     id: UID,
-    url: 'ws://127.0.0.1:8000',
-    peer: new Peer(UID)
+    url: 'ws://127.0.0.1:8000'
+});
+
+const peer = new Peer({
+    id: UID
+});
+
+
+const socketpeer = new SocketPeer({
+    socket: socket,
+    peer: peer
 });
 
 open.addEventListener('click', () => {
-    sp.open(input_user_id.value);
+    socketpeer.open(input_user_id.value);
 })
 
-sp.peer.onopen = (e) => {
+peer.onopen = (e) => {
     console.log('OPEN')
 }

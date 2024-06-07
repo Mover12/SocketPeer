@@ -1,20 +1,18 @@
-const SocketServer = require("./SocketServer");
-
-class SignalingSocketServer extends SocketServer{
+class SignalingSocketServer {
     constructor (options) {
-        super(options);
+        this.socket = options.socket;
 
-        this.on('connection', ws => {
+        this.socket.on('connection', ws => {
             ws.on('message', data => {
                 const message = JSON.parse(data);
                 if (message.url == 'signaling') {
                     if (message.body.event == 'sdp') {
-                        if (this.sockets[message.body.uid]) {
-                            this.sockets[message.body.uid].send(JSON.stringify({
+                        if (this.socket.sockets[message.body.id]) {
+                            this.socket.sockets[message.body.id].send(JSON.stringify({
                                 url: 'signaling',
                                 body: {
                                     event: 'sdp',
-                                    uid: ws.id,
+                                    id: ws.id,
                                     sdp: message.body.sdp
                                 }
                             }));
