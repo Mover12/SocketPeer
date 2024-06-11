@@ -1,5 +1,5 @@
-const SocketServer = require('./src/SocketServer');
-const SignalingSocketServer = require('./src/SignalingSocketServer');
+const SocketServer = require('../src/SocketServer');
+const SignalingSocketServer = require('../src/SignalingSocketServer');
 
 const ss = new SocketServer({
     url: '127.0.0.1',
